@@ -1,0 +1,79 @@
+@import "./typography.scss";
+@import "./variables.scss";
+@import "~vuetify/src/styles/settings/_variables";
+$heading-font-family:'Steinem';
+$body-font-family:'San Francisco';
+
+// @media only screen and (orientation:portrait) {
+//     body {
+
+//         transform: rotate(90deg);
+//     }
+// }
+
+
+html,
+body {
+  width: 100vw;
+  height: 100%;
+  font-family: $body-font-family, sans-serif !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $heading-font-family, serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-rendering: optimizeLegibility;
+}
+
+
+.border-green {
+  border-color: $green !important;
+}
+
+.border-red {
+  border-color: $red !important;
+}
+
+.border-purple {
+  border-color: $purple !important;
+}
+
+.border-grey {
+  border-color: $dark-grey !important;
+}
+
+.page-single {
+  border: $page_border solid;
+}
+
+.page-start {
+  border-left: $page_border solid;
+  border-right: $page_border solid;
+  border-top: $page_border solid;
+}
+
+.page-continue {
+  border-left: $page_border solid;
+  border-right: $page_border solid;
+}
+
+.page-end {
+  border-left: $page_border solid;
+  border-right: $page_border solid;
+  border-bottom: $page_border solid;
+}
+
+.fill-width {
+  width: 100% !important;
+  border: 1px solid tomato;
+}
+
+.debug {
+  border: 1px solid tomato;
+}
