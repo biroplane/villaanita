@@ -1,6 +1,6 @@
-
 <template>
   <v-content fill-height>
+    <!-- PAGE 1 -->
     <page
       :isFluid="true"
       class="page-start border-green"
@@ -31,11 +31,11 @@
               class="homenavbar"
             >
               <h4
-                v-for="(item, i) in wp_menu"
+                v-for="(item, i) in home_menu"
                 :key="i"
                 class="pr-4 primary--text"
               >
-                <a :href="item.link">{{ item.title }}</a>
+                <a :href="item.link">{{ item.name }}</a>
               </h4>
             </nav>
 
@@ -46,6 +46,7 @@
         </v-flex>
       </v-layout>
     </page>
+    <!-- PAGE 2 STRUTTURA -->
 
     <page
       :isFluid="false"
@@ -56,6 +57,7 @@
         :pages="villa_anita_pages"
       />
     </page>
+    <!-- PAGE 3 RICERCA -->
 
     <page
       id="ricerca"
@@ -127,6 +129,7 @@
         </v-col>
       </v-container>
     </page>
+    <!-- PAGE 3 -->
 
     <page
       :isFluid="true"
@@ -134,6 +137,8 @@
     >
       <!-- <google-maps /> -->
     </page>
+    <!-- PAGE 4 -->
+    <!-- PAGE 5 -->
   </v-content>
 </template>
 
@@ -156,7 +161,11 @@ export default {
     colors: variables
   }),
   computed: {
-    ...mapGetters({ isLoading: 'staticpages/isLoading', wp_menu: 'staticpages/menu', wp_pages: 'staticpages/pages' }),
+    ...mapGetters({
+      isLoading: 'staticpages/isLoading',
+      home_menu: 'staticpages/home_menu',
+      wp_pages: 'staticpages/pages'
+    }),
     ...mapState({ error: 'staticpages/error', env: 'root/env' }),
 
     villa_anita_pages () {
@@ -214,12 +223,14 @@ export default {
   mounted () { },
 
   methods: {
-    ...mapMutations({ setisLoading: 'staticpages/set_isLoading', LOAD_MENU: 'staticpages/LOAD_MENU', LOAD_PAGES: 'staticpages/LOAD_PAGES', set_error: 'staticpages/set_error' })
-
+    ...mapMutations({
+      setisLoading: 'staticpages/set_isLoading',
+      LOAD_MENU: 'staticpages/LOAD_MENU',
+      LOAD_PAGES: 'staticpages/LOAD_PAGES',
+      set_error: 'staticpages/set_error'
+    })
   }
-
 }
 </script>
 
-<style>
-</style>
+<style></style>

@@ -35,12 +35,12 @@ export const actions = {
   async LOAD_MENU ({
     commit
   }) {
-    console.log('CARICO LE PAGINE')
     const {
       data
-    } = await this.$axios.get(`${process.env.api_root}/menu`, {
+    } = await this.$axios.get(`${process.env.api_root}/categories`, {
       progress: true
     })
+    console.log('CARICO LE PAGINE', data)
     commit('loadMenu', data)
     return data
   },
@@ -64,6 +64,9 @@ export const getters = {
 
   isLoading: (state) => {
     return state.isLoading
+  },
+  home_menu (state) {
+    return state.wp_menu.filter(page => page.parent === 0 && page.name.toLowerCase() !== 'home')
   }
 }
 

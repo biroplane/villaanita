@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+const env = require('dotenv').config()
 
 export default {
   mode: 'universal',
@@ -8,7 +9,8 @@ export default {
   env: {
     title: 'Villa Anita',
     api_root: 'https://www.villaanita.net/wp-json/wp/v2',
-    geocode: '41.127492, 16.530003'
+    geocode: '41.127492, 16.530003',
+    ...env.parsed
   },
   head: {
     titleTemplate: '%s - ' + process.env.npm_package_name,

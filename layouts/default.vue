@@ -1,15 +1,19 @@
 <template>
   <v-app app>
-    <!-- <client-only>
+    <client-only>
       <v-overlay
         :value="isLoading"
         z-index="3000"
         tag="div"
       >
-        Loading.
+        <v-progress-circular
+          indeterminate=""
+          rotate=""
+          size="100"
+        />
       </v-overlay>
       <cookie />
-    </client-only> -->
+    </client-only>
     <v-navigation-drawer
       v-model="drawer"
       v-if="breakpoint.smAndDown"
@@ -17,11 +21,11 @@
     >
       <v-list>
         <v-list-item
-          v-for="(item,i) in menuitems"
+          v-for="(item, i) in home_menu"
           :key="i"
           :to="item.url"
         >
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
+          <v-list-item-title>{{ item.name }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -34,12 +38,12 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-items>
         <v-btn
-          v-for="(item,i) in menuitems"
+          v-for="(item, i) in home_menu"
           :key="i"
           :to="item.url"
           text
         >
-          {{ item.title }}
+          {{ item.name }}
         </v-btn>
       </v-toolbar-items>
     </v-app-bar>
@@ -60,7 +64,8 @@
                   width="100"
                 />
                 <p class="pt-4">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. veniam?
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  veniam?
                 </p>
               </v-card-text>
               <v-card-actions>
@@ -142,11 +147,11 @@
 <script>
 /* eslint-disable no-console */
 import { mapGetters } from 'vuex'
-// import Cookie from '@/components/Cookie'
 
+import Cookie from '@/components/Cookie'
 export default {
   name: 'App',
-  // components: { Cookie },
+  components: { Cookie },
   data: () => ({
     //
     isHydratated: false,
@@ -163,8 +168,6 @@ export default {
       v => /.+@.+/.test(v) || 'E-mail must be valid'
     ],
     drawer: false,
-    menuitems: [],
-
     mainTitle: process.env.NUXT_ENV_TITLE,
     postsearch: '',
 
@@ -172,7 +175,11 @@ export default {
   }),
 
   computed: {
-    ...mapGetters({ wp_menu: 'staticpages/wp_menu', isLoading: 'staticpages/isLoading' }),
+    ...mapGetters({
+      wp_menu: 'staticpages/wp_menu',
+      isLoading: 'staticpages/isLoading',
+      home_menu: 'staticpages/home_menu'
+    }),
     breakpoint () {
       return this.isHydratated ? this.$vuetify.breakpoint : ''
     }
@@ -180,11 +187,14 @@ export default {
   async beforeMount () {
     this.$store.dispatch('staticpages/doneLoading', false)
 
-    await Promise.all([this.$store.dispatch('staticpages/LOAD_PAGES'), this.$store.dispatch('staticpages/LOAD_MENU')]).then(([pages, menu]) => {
+    await Promise.all([
+      this.$store.dispatch('staticpages/LOAD_PAGES'),
+      this.$store.dispatch('staticpages/LOAD_MENU')
+    ]).then(([pages, menu]) => {
       // eslint-disable-next-line no-console
       console.log('OLE! ', pages, menu)
 
-      this.$store.dispatch('staticpages/doneLoading', false)
+      this.$store.dispatch('staticpages/doneLoading', true)
       this.$store.commit('staticpages/loadMenu', menu)
       this.$store.commit('staticpages/loadPages', pages)
     })
@@ -196,7 +206,7 @@ export default {
   methods: {}
 }
 </script>
-<style lang="scss" >
+<style lang="scss">
 $color-pack: false;
 @import "~@/assets/scss/main.scss";
 @import "~@/assets/scss/variables.scss";
