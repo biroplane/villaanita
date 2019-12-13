@@ -1,4 +1,4 @@
-const API_KEY = 'AIzaSyDWHM0sku6eP8S34pskZ7dhPnZ-5ov-DVk'
+const API_KEY = ''
 const CALLBACK_NAME = 'init'
 let initialized
 if (process.client) {
