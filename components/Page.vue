@@ -24,6 +24,8 @@ export default {
 <style lang="scss" scoped>
 .page {
   min-height: 100vh !important;
+  width: 100vw !important;
+  overflow-x: hidden !important;
 }
 .nopadding {
   padding: 0px !important;

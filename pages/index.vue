@@ -48,96 +48,18 @@
     </page>
     <!-- PAGE 2 STRUTTURA -->
 
-    <page
-      :isFluid="false"
-      class="page-end border-green"
-    >
-      <villanita
-        v-if="wp_pages.length > 0"
-        :pages="villa_anita_pages"
-      />
-    </page>
+    <villanita
+      v-if="wp_pages.length > 0"
+      :pages="home_page"
+      :jumbotron="jumbotron[0]"
+    />
+
     <!-- PAGE 3 RICERCA -->
+    <ricerca :research="research[0]!=null?research[0]:{}" />
 
-    <page
-      id="ricerca"
-      class="page-single border-purple"
-    >
-      <div class="dna">
-        <img
-          :src="require('@/assets/img/ricerca_crop_fr.png')"
-          class="first"
-        >
-        <img
-          :src="require('@/assets/img/ricerca_crop_fr.png')"
-          class="second"
-        >
-      </div>
-      <v-container
-        column
-        class="py-12 rstext"
-      >
-        <v-col
-          xs12
-          md12
-          lg12
-        >
-          <h1 class="display-4 text-uppercase white--text font-weight-black">
-            Ricerca e
-            <br>Sviluppo
-          </h1>
-        </v-col>
-
-        <v-flex
-          md12
-          lg6
-          xl4
-        >
-          <v-col>
-            <p class="white--text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor ex,
-              iure dolorum fugit quaerat, facere impedit alias iusto recusandae
-              doloribus laudantium sunt unde consequatur commodi doloremque
-              similique adipisci, voluptatem dicta. Aliquid, aut maiores. Earum
-              corporis accusamus voluptates voluptate minima quidem! Nam sed rem
-              quod id dolore. Porro dolore praesentium recusandae officia
-              possimus natus corrupti pariatur, quod labore in ad quaerat? Quam
-              praesentium repellendus laudantium ex natus quos officia,
-              doloremque eos minus quae eveniet quaerat voluptate ducimus
-              repudiandae inventore, repellat labore error quisquam ad quis
-              delectus doloribus esse officiis! Molestias, recusandae. Atque,
-              maiores quis! Beatae neque rem nostrum officiis voluptatum
-              dignissimos quis in eveniet doloribus modi numquam perspiciatis
-              distinctio repudiandae, ad repellendus nihil adipisci
-              reprehenderit voluptates totam delectus blanditiis ab possimus?
-              Explicabo deserunt a animi quia facilis doloremque ut recusandae
-              consequuntur minima. Molestiae unde hic est ab ex, a sint eum
-              laborum quasi dignissimos assumenda saepe nulla. Iste maxime sit
-              impedit!
-            </p>
-          </v-col>
-        </v-flex>
-
-        <v-col>
-          <v-btn
-            :color="colors.purple"
-            dark
-            large
-          >
-            Scopri di più >
-          </v-btn>
-        </v-col>
-      </v-container>
-    </page>
-    <!-- PAGE 3 -->
-
-    <page
-      :isFluid="true"
-      :noPadding="true"
-    >
-      <!-- <google-maps /> -->
-    </page>
+    <news :items="newsitems" />
     <!-- PAGE 4 -->
+    <!-- <google-maps /> -->
     <!-- PAGE 5 -->
   </v-content>
 </template>
@@ -147,18 +69,27 @@
 // import axios from 'axios'
 import { mapMutations, mapGetters, mapState } from 'vuex'
 import Page from '@/components/Page'
-
+import Ricerca from '@/components/home/Ricerca'
+import News from '@/components/home/News'
 // import GoogleMaps from '@/components/GoogleMaps'
-import Villanita from '@/components/Villanita'
+import Villanita from '@/components/home/Villanita'
 import variables from '@/assets/scss/variables.scss'
+const homeArticles = [process.env.HOME_MISSION, process.env.HOME_GARDEN, process.env.HOME_STRUCT]
+
 export default {
   components: {
     Page,
     // GoogleMaps
-    Villanita
+    Villanita,
+    Ricerca,
+    News
   },
   data: () => ({
-    colors: variables
+    colors: variables,
+    home_page: [],
+    jumbotron: [],
+    research: [],
+    newsitems: []
   }),
   computed: {
     ...mapGetters({
@@ -175,52 +106,32 @@ export default {
       return this.wp_pages.slice(0, 3)
     }
   },
-
-  // fetch ({ store }) {
-  //   return axios.get(`${process.env.api_root}/pages`).then((res) => {
-  //     console.log('FETCH -> ', res)
-  //     store.dispatch('staticpages/LOAD_PAGES', res.data)
-  //   })
-  // },
-  // async beforeCreate () {
-  //   this.$store.commit('staticpages/set_isLoading', false)
-
-  //   // this.setisLoading(true)
-  //   try {
-  //     await axios
-  //       .all([
-  //         axios.get(`${process.env.api_root}/pages`),
-  //         axios.get(`${process.env.api_root}/menu`)
-  //       ])
-  //       .then(
-  //         axios.spread((pages, menu) => {
-  //           this.LOAD_MENU(menu.data)
-  //           this.LOAD_PAGES(pages.data)
-  //           // eslint-disable-next-line no-console
-  //           console.log('AXIOS ', this.menu)
-  //         })
-  //       )
-  //       .catch((err) => {
-  //         // eslint-disable-next-line no-console
-  //         console.error('ERRORE CARICAMENTO ', err)
-  //         this.$store.commit('staticpages/set_error', err)
-  //         throw new Error(err)
-  //       })
-  //       .finally(() => {
-  //         // this.setisLoading(false)
-  //         this.$store.commit('staticpages/set_isLoading', false)
-  //       })
-  //   } catch (error) {
-  //     // eslint-disable-next-line no-console
-  //     console.log('LOG FROM ERROR ', this.$store.state.root)
-
-  //     // eslint-disable-next-line no-console
-  //     console.error('ERRORE ', error)
-  //     this.$store.commit('staticpages/set_error', error)
-  //   }
-  // },
-
   mounted () { },
+  async beforeCreate () {
+    try {
+      const [homepages, jumbotron, research, news] = await Promise.all([
+        this.$axios.get(`${process.env.api_root}/posts?include=${homeArticles.join(',')}`),
+        this.$axios.get(`${process.env.api_root}/posts?include=${process.env.HOME_JUMBOTRON}`),
+        this.$axios.get(`${process.env.api_root}/posts?include=${process.env.RESEARCH}`),
+        this.$axios.get(`${process.env.api_root}/posts?categories=${process.env.NEWS_CATEGORY}`)
+
+      ])
+
+      this.home_page = homepages.data
+      this.jumbotron = jumbotron.data
+      this.research = research.data
+      this.newsitems = news.data
+
+      console.log('NEWS ITEMS ', news, process.env.NEWS_CATEGORY)
+    } catch (error) {
+      console.error('ERRORE ', error)
+    }
+    // try {
+    //   const homepage = await this.$axios.get(`${process.env.api_root}/posts?include=${homeArticles.join(',')}`)
+    //   this.home_page = homepage.data
+    // } catch (error) {
+    // }
+  },
 
   methods: {
     ...mapMutations({

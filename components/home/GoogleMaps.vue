@@ -1,11 +1,18 @@
 <template>
-  <span id="map">Google Maps</span>
+  <page
+    :isFluid="true"
+    :noPadding="true"
+  >
+    <span id="map">Google Maps</span>
+  </page>
 </template>
 
 <script>
+import Page from '../Page'
 import GM from '@/plugins/googlemaps'
 import style from '@/plugins/googlemaps_style'
 export default {
+  components: { Page },
   data () {
     return {
       map: null,
