@@ -14,8 +14,11 @@
                 width="100"
               />
               <p class="pt-4">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                veniam?
+                70038 Terlizzi (BA)<br>
+                Strada Provinciale 2, 23<br>
+                Tel. +39 080 9141484 - 346 1045661<br>
+                info@villaanita.net<br>
+                P. IVA 07759950723<br>
               </p>
             </v-card-text>
             <v-card-actions>

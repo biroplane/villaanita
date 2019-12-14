@@ -1,6 +1,12 @@
 <template>
   <v-content fill-height>
     <!-- PAGE 1 -->
+    <button
+      @click="nextStop"
+      class="custom_fab"
+    >
+      <v-icon>mdi-chevron-down</v-icon>
+    </button>
     <page
       :isFluid="true"
       class="page-start border-green"
@@ -49,7 +55,7 @@
     <!-- PAGE 2 STRUTTURA -->
 
     <villanita
-      v-if="wp_pages.length > 0"
+      v-if="home_page.length > 0"
       :pages="home_page"
       :jumbotron="jumbotron[0]"
     />
@@ -59,7 +65,7 @@
 
     <news :items="newsitems" />
     <!-- PAGE 4 -->
-    <!-- <google-maps /> -->
+    <google-maps />
     <!-- PAGE 5 -->
   </v-content>
 </template>
@@ -71,7 +77,7 @@ import { mapMutations, mapGetters, mapState } from 'vuex'
 import Page from '@/components/Page'
 import Ricerca from '@/components/home/Ricerca'
 import News from '@/components/home/News'
-// import GoogleMaps from '@/components/GoogleMaps'
+import GoogleMaps from '@/components/home/GoogleMaps'
 import Villanita from '@/components/home/Villanita'
 import variables from '@/assets/scss/variables.scss'
 const homeArticles = [process.env.HOME_MISSION, process.env.HOME_GARDEN, process.env.HOME_STRUCT]
@@ -79,7 +85,7 @@ const homeArticles = [process.env.HOME_MISSION, process.env.HOME_GARDEN, process
 export default {
   components: {
     Page,
-    // GoogleMaps
+    GoogleMaps,
     Villanita,
     Ricerca,
     News
@@ -106,23 +112,32 @@ export default {
       return this.wp_pages.slice(0, 3)
     }
   },
-  mounted () { },
-  async beforeCreate () {
+  async asyncData ({ app, params, store }) {
     try {
-      const [homepages, jumbotron, research, news] = await Promise.all([
-        this.$axios.get(`${process.env.api_root}/posts?include=${homeArticles.join(',')}`),
-        this.$axios.get(`${process.env.api_root}/posts?include=${process.env.HOME_JUMBOTRON}`),
-        this.$axios.get(`${process.env.api_root}/posts?include=${process.env.RESEARCH}`),
-        this.$axios.get(`${process.env.api_root}/posts?categories=${process.env.NEWS_CATEGORY}`)
-
+      const [homepages, jumbotron, research, news, menu] = await Promise.all([
+        app.$axios.get(`${process.env.api_root}/posts?include=${homeArticles.join(',')}`),
+        app.$axios.get(`${process.env.api_root}/posts?include=${process.env.HOME_JUMBOTRON}`),
+        app.$axios.get(`${process.env.api_root}/posts?include=${process.env.RESEARCH}`),
+        app.$axios.get(`${process.env.api_root}/posts?categories=${process.env.NEWS_CATEGORY}`),
+        app.$axios.get(`${process.env.api_root}/categories`)
       ])
 
-      this.home_page = homepages.data
-      this.jumbotron = jumbotron.data
-      this.research = research.data
-      this.newsitems = news.data
+      console.log('MENU CARICATO ', menu)
 
-      console.log('NEWS ITEMS ', news, process.env.NEWS_CATEGORY)
+      // store.commit('staticpages/loadMenu', menu)
+      // })
+      console.log('ASYNC DATA PERFORMED ', store)
+      return {
+        home_page: homepages.data,
+        jumbotron: jumbotron.data,
+        research: research.data,
+        newsitems: news.data
+      }
+
+      // this.home_page = homepages.data
+      // this.jumbotron = jumbotron.data
+      // this.research = research.data
+      // this.newsitems = news.data
     } catch (error) {
       console.error('ERRORE ', error)
     }
@@ -139,9 +154,23 @@ export default {
       LOAD_MENU: 'staticpages/LOAD_MENU',
       LOAD_PAGES: 'staticpages/LOAD_PAGES',
       set_error: 'staticpages/set_error'
-    })
+    }),
+    nextStop () {
+      console.log('NEXT')
+    }
   }
 }
 </script>
 
-<style></style>
+<style lang="scss">
+.custom_fab {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  position: fixed;
+  background-color: rgba(white, 0.7);
+  bottom: 10px;
+  margin: auto 0px;
+  left: calc(50vw - 25px);
+}
+</style>

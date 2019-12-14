@@ -19,7 +19,7 @@
 <script>
 import Page from '@/components/Page'
 export default {
-  layout: 'default',
+  layout: 'singlepage',
   components: {
     Page
   },

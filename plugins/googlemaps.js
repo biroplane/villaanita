@@ -1,4 +1,4 @@
-const API_KEY = ''
+const API_KEY = process.env.GOOGLE_MAPS_API_KEY
 const CALLBACK_NAME = 'init'
 let initialized
 if (process.client) {

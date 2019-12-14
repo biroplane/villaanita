@@ -1,55 +1,7 @@
 <template>
   <v-app app>
-    <client-only>
-      <v-overlay
-        :value="isLoading"
-        z-index="3000"
-        tag="div"
-      >
-        <v-progress-circular
-          indeterminate=""
-          rotate=""
-          size="100"
-        />
-      </v-overlay>
-      <cookie />
-    </client-only>
-    <v-navigation-drawer
-      v-model="drawer"
-      v-if="breakpoint.smAndDown"
-      app
-    >
-      <v-list-item>
-        <v-list-item-content>
-          <v-img
-            :src="require('@/assets/logo.png')"
-            max-height="91"
-            max-width="88"
-            class="mt-12"
-          />
-        </v-list-item-content>
-      </v-list-item>
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in home_menu"
-          :key="i"
-          :to="item.url"
-        >
-          <v-list-item-title class="link">
-            {{ item.name }}
-          </v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-btn
-      id="custom-fab"
-      v-if="breakpoint.smAndDown"
-      @click.stop="drawer = !drawer"
-      icon
-      fab
-    >
-      <v-icon>mdi-menu</v-icon>
-    </v-btn>
+    <cookie />
+    <the-header />
     <nuxt />
 
     <the-footer />
@@ -59,11 +11,13 @@
 <script>
 /* eslint-disable no-console */
 import { mapGetters } from 'vuex'
-import TheFooter from '@/components/TheFooter'
 import Cookie from '@/components/Cookie'
+import TheFooter from '@/components/TheFooter'
+import TheHeader from '@/components/TheHeader'
+
 export default {
   name: 'App',
-  components: { Cookie, TheFooter },
+  components: { TheHeader, TheFooter, Cookie },
   data: () => ({
     //
     isHydratated: false,
@@ -79,7 +33,7 @@ export default {
       v => !!v || 'E-mail is required',
       v => /.+@.+/.test(v) || 'E-mail must be valid'
     ],
-    drawer: false,
+
     mainTitle: process.env.NUXT_ENV_TITLE,
     postsearch: '',
 
@@ -96,22 +50,8 @@ export default {
       return this.isHydratated ? this.$vuetify.breakpoint : ''
     }
   },
-  async beforeMount () {
-    this.$store.dispatch('staticpages/doneLoading', false)
-
-    await Promise.all([
-      this.$store.dispatch('staticpages/LOAD_PAGES'),
-      this.$store.dispatch('staticpages/LOAD_MENU')
-    ]).then(([pages, menu]) => {
-      // eslint-disable-next-line no-console
-      console.log('OLE! ', pages, menu)
-
-      this.$store.dispatch('staticpages/doneLoading', true)
-      this.$store.commit('staticpages/loadMenu', menu)
-      this.$store.commit('staticpages/loadPages', pages)
-    })
-  },
   mounted () {
+    this.$store.dispatch('staticpages/doneLoading', true)
     this.isHydratated = true
   },
 

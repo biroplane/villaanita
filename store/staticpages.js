@@ -1,6 +1,26 @@
 /* eslint-disable no-console */
 export const state = () => ({
-  wp_menu: [],
+  wp_menu: [{
+    name: 'Villa Anita',
+    link: '#villaanita',
+    active: false
+  },
+  {
+    name: 'Il Giardino',
+    link: '#villaanita',
+    active: false
+  },
+  {
+    name: 'Villa Anita',
+    link: '#villaanita',
+    active: false
+  },
+  {
+    name: 'Villa Anita',
+    link: '#villaanita',
+    active: false
+  }
+  ],
   wp_pages: [],
   isLoading: true,
   error: ''
@@ -66,7 +86,8 @@ export const getters = {
     return state.isLoading
   },
   home_menu (state) {
-    return state.wp_menu.filter(page => page.parent === 0 && page.name.toLowerCase() !== 'home')
+    return state.wp_menu
+    // return state.wp_menu.filter(page => page.parent === 0 && page.name.toLowerCase() !== 'home')
   }
 }
 

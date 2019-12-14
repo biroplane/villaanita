@@ -55,6 +55,7 @@ export default {
       this.marker = new google.maps.Marker({
         position: this.marker,
         map: this.map,
+        animation: google.maps.Animation.DROP,
         icon: require('@/assets/marker.png')
       })
       this.marker.addListener('click', () => {
