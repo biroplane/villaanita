@@ -3,6 +3,7 @@
     :isFluid="true"
     class="page-single border-grey"
   >
+    <a name="news-eventi" />
     <v-row>
       <h1>News &amp; Eventi</h1>
     </v-row>

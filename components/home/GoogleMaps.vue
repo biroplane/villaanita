@@ -3,6 +3,7 @@
     :isFluid="true"
     :noPadding="true"
   >
+    <a name="contattaci" />
     <span id="map">Google Maps</span>
   </page>
 </template>

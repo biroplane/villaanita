@@ -3,6 +3,7 @@
     id="ricerca"
     class="page-single border-purple"
   >
+    <a name="ricerca-e-sviluppo" />
     <div class="dna">
       <img
         :src="require('@/assets/img/ricerca_crop_fr.png')"

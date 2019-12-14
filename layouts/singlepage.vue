@@ -1,6 +1,6 @@
 <template>
   <v-app app>
-    <custom-menu />
+    <custom-menu :isSinglePage="true" />
     <nuxt />
     <the-footer />
   </v-app>
@@ -23,6 +23,7 @@ nav.homenavbar {
   height: 7vmin;
   display: flex;
   align-items: center;
+  z-index: 1999;
 }
 
 .scrollButton {

@@ -1,23 +1,28 @@
 /* eslint-disable no-console */
 export const state = () => ({
   wp_menu: [{
-    name: 'Villa Anita',
-    link: '#villaanita',
+    name: 'Home',
+    link: '#villa-anita',
     active: false
   },
   {
-    name: 'Il Giardino',
-    link: '#villaanita',
+    name: 'Centrodiurno',
+    link: '#centro-diurno',
     active: false
   },
   {
-    name: 'Villa Anita',
-    link: '#villaanita',
+    name: 'Ricerca e Sviluppo',
+    link: '#ricerca-e-sviluppo',
     active: false
   },
   {
-    name: 'Villa Anita',
-    link: '#villaanita',
+    name: 'News ed Eventi',
+    link: '#news-eventi',
+    active: false
+  },
+  {
+    name: 'Contattaci',
+    link: '#contattaci',
     active: false
   }
   ],

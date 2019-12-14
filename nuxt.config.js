@@ -75,6 +75,9 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {},
+  router: {
+    base: process.env.NODE_ENV !== 'production' ? '/' : '/app/'
+  },
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
